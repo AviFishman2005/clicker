@@ -1,0 +1,252 @@
+  
+<html>
+<head>
+  <title>המחלבה של שלום</title>
+    <style> 
+ .btn-group button {
+  font-family:fantasy;
+  font-size: 18px;
+  background-color:gold; /* Green background */
+  border: 0px solid red; 
+  color: black; /* White text */
+  padding: 14px 31.05px; /* Some padding */
+  cursor:grab; 
+  float:right; /* Float the buttons side by side */
+
+         }
+         .btn-group:after {
+  content: "";
+  clear:both;
+  display:block;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: brown;
+}
+    
+    </style>
+
+
+</head>
+
+<body>
+    
+    
+    <canvas id="cokie" width="850" height="640" style="position: absolute; top:0; left:0; border:3px solid black;"></canvas>
+    <canvas id="upgrades" width="0" height="0" style="position: absolute; top:0; left:850; border:3px solid black;"></canvas>
+    
+    
+    <div class="btn-group">
+    <button id="line" style = "  position:fixed; top:200px; left:-109px; "onclick="price()">|||</button>
+    <button  id = "glove" style = "  position:fixed; top:240px; left:3px;"onclick="upgrade1()">glove - 20$</button> 
+    <button id = "milker" style = "  position:fixed; top:290px; left:3px;"onclick="upgrade2()">milker - 2,000$</button>  
+    <button id = "stick" style = "  position:fixed; top:340px; left:3px"onclick="upgrade3()">stick - 20,000$</button> 
+    <button id = "pump"style = "  position:fixed; top:390px; left:3px;"onclick="upgrade4()">pump - 200,000$</button>
+<!--
+    <button onclick="upgrade6()">עצור קול</button>
+    <button onclick="upgrade7()">הפעל קול</button>
+-->
+      </div>
+    
+    <script>
+        var rank =1;
+        var score = 0;
+        var canvas;
+        var ctx;
+        var canvasU;
+        var ctxU;
+        var milkx = 150
+        var milky = 150
+        var upgradePrice1 = 20;
+        var upgradePrice2 = 2000;
+        var upgradePrice3 = 20000;
+        var upgradePrice4 = 200000;
+        
+        var upgradecount1 = 0;
+        var upgradecount2 = 0;
+        var upgradecount3 = 0;
+        var upgradecount4 = 0;
+        
+        var sizex = 300;
+        var sizey = 325;
+        var cutFacex = 600;
+        var cutFacey = 654;
+        var cutFacex2 = 0;
+        var cutFacey2 = 0;
+        var cowPosx = 850/2-150;
+        var cowPosy = 175
+        var backround = 0.01;
+        var ifInt = 0;
+        var button = document.querySelector("button")
+        var mousex;
+        var mousey;
+        function calculateMousePos(evt){
+		var rect = canvas.getBoundingClientRect();
+		var root = document.documentElement;
+		var mouseX = evt.clientX - rect.left - root.scrollLeft;
+		var mouseY = evt.clientY - rect.top - root.scrollTop;
+		return {
+				x:mouseX,
+				y:mouseY
+			};
+}
+        
+        window.onload = function(){
+        canvas = document.getElementById("cokie");
+        ctx = canvas.getContext('2d');
+        canvasU = document.getElementById("upgrades");
+        ctxU = canvas.getContext('2d');
+        var fps = 1;
+	setInterval (function( ) {
+        BackroundMilking();
+        draw();
+        drawU();
+	}, 1000/fps);
+        draw();
+        canvas.addEventListener('mousemove',
+		function(evt){
+			var mousePos = calculateMousePos(evt);
+			 (mousey= mousePos.y,
+             mousex = mousePos.x)}
+)
+        canvas.addEventListener('mousedown' ,click)
+        }
+        function BackroundMilking(){
+            
+            document.title = score.toFixed(0) + " כוסות חלב";
+            score += backround;
+            
+
+        }
+        function click(evt){
+            //on click
+            score += Math.floor(rank);
+            console.log(rank);
+            document.title = score.toFixed(0) + " כוסות חלב";
+//            rank +=s 2;
+            
+            if (sizex > 300){
+            sizex = 300
+        }else{sizex += 100}    
+             if (sizey > 325){
+            sizey = 325
+        }else{sizey += 100}  
+            //end of resizing
+                if (cutFacex < 600){
+            cutFacex = 600
+        }else{cutFacex -= 100}    
+             if (cutFacey > 654){
+            cutFacey = 654
+        }else{cutFacey += 100}
+            //cut face2
+//            if (cutFacex2 > 0){
+//            cutFacex = 0
+//        }else{cutFacex += 150}    
+//             if (cutFacey < 0){
+//            cutFacey = 0
+//        }else{cutFacey -= 150}
+            //change cow position?
+            if (cowPosx < canvas.width/2-150){
+               cowPosx = canvas.width/2-150;
+        }else{cowPosx -= 50}    
+             if (cowPosy > 100){
+            cowPosy = 175
+        }else{cowPosy += 20}
+        draw()
+        //make mouse change
+            if (mousex < canvas.width-cowPosx + 50 &&
+                mousex > 50 ){
+                document.getElementById("cokie").style.cursor = "grabbing";
+                
+            }
+                else{document.getElementById("cokie").style.cursor}
+    }
+        function upgrade1(){
+            if(score >= upgradePrice1){
+                score -= upgradePrice1;
+                rank *= 1.3;
+                backround += 0.1;
+                console.log(rank)
+                upgradecount1++
+                upgradePrice1 *= 4; 
+                document.getElementById("cokie").style.cursor = "grabbing";
+                document.getElementById('glove').innerHTML = ( " glove- " + upgradePrice1+ "$  "  +   upgradecount1 )
+            }
+        }
+                function upgrade2(){
+            if(score >= upgradePrice2){
+                score -= upgradePrice2;
+                rank *= 3;
+                backround += 1;
+                console.log(rank)
+                upgradecount2++
+                upgradePrice2 *= 4; 
+                document.getElementById("cokie").style.cursor = "grabbing";
+                document.getElementById('milker').innerHTML = ( " milker- " + upgradePrice2 +"$"+ upgradecount2 )
+            }
+        }
+         function upgrade3(){
+            if(score >= upgradePrice3){
+                score -= upgradePrice3;
+                rank *= 4;
+                backround +=10;
+                console.log(rank)
+                upgradecount3++
+                upgradePrice3 *= 4; 
+                document.getElementById("cokie").style.cursor = "grabbing";
+                document.getElementById('stick').innerHTML  = (" stick- " + upgradePrice3 +"$"+upgradecount3  )
+            }
+        }
+        function upgrade4(){
+            if(score >= upgradePrice4){
+                score -= upgradePrice4;
+                rank *= 5;
+                backround +=100;
+                console.log(rank)
+                upgradePrice3 *= 4; 
+                document.getElementById("cokie").style.cursor = "grabbing";
+                document.getElementById('pump').innerHTML = ( " pump - " + upgradePrice4 +"$" )
+            }
+        }
+        
+
+
+        
+        function draw(){
+        document.getElementById("cokie").style.cursor = "grab";
+        ctx.fillStyle = 'darkGreen';
+        ctx.fillRect(0,0,canvas.width,canvas.height) 
+        mainImage = new Image();
+        mainImage.src = "https://wonderopolis.org/wp-content/uploads/2015/08/1495_f.jpg"
+        ctx.drawImage(mainImage,cutFacex2,cutFacey2,cutFacex,cutFacey,cowPosx,cowPosy,sizex,sizey)
+        
+//        ctx.drawImage(mainImage,450,420,120,630,milkx,milky,50,200)
+        ctx.font = "30px Courier New";
+        ctx.fillStyle =  'white';
+        ctx.fillText("you have " + score.toFixed(0) + " glasses of milk ",canvas.width/3.2,50);
+            
+        ctx.font = "15px Courier New";
+        ctx.fillStyle =  'white';
+        ctx.fillText( backround.toFixed(2) +  " perSec",canvas.width/2.3,75);
+        
+        //fps font
+
+        }
+        function drawU(){
+        document.getElementById("cokie").style.cursor = "grab";
+        ctxU.fillStyle = 'blue';
+        ctxU.fillRect(850,0,canvasU.width,canvasU.height) 
+
+
+        }
+        
+    </script>
+</body>
+</html>
+
+<html>
